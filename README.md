@@ -1,13 +1,14 @@
 # 🧮 Basic Arithmetic Calculator (C++)
 
-A robust, interactive console-based calculator application performing basic arithmetic operations, built with modern C++. Features structured input validation, runtime error handling, and persistent session flow.
+A robust, interactive console-based calculator application performing basic arithmetic operations, built with modern C++. Features structured input validation, runtime error handling, floating-point modulus calculation, and persistent session flow.
 
 ---
 
 ## ✨ Features
 
-* **Basic Arithmetic Operations:** Supports addition (`+`), subtraction (`-`), multiplication (`*`), and division (`/`).
-* **Division by Zero Protection:** Implements defensive conditional checks to prevent undefined behavior and crashes when dividing by zero.
+* **Arithmetic Operations:** Supports addition (`+`), subtraction (`-`), multiplication (`*`), division (`/`), and modulus (`%`).
+* **Floating-Point Modulus:** Computes remainder for floating-point values via `fmod()` from `<cmath>`.
+* **Zero Division & Modulus Protection:** Implements defensive conditional checks to prevent undefined behavior and runtime crashes when dividing or taking the modulus by zero.
 * **Input Validation Loop:** Employs a `while` loop that intercepts invalid operator inputs and prompts the user repeatedly until a valid symbol is provided.
 * **Session Persistence:** Utilizes a `do-while` loop allowing consecutive calculations without terminating the program.
 
@@ -16,7 +17,7 @@ A robust, interactive console-based calculator application performing basic arit
 ## 🛠️ Built With
 
 * **Language:** C++
-* **Standard Library:** `<iostream>`
+* **Standard Libraries:** `<iostream>`, `<cmath>`
 * **Development Environment:** Microsoft Visual Studio / MSVC
 
 ---
@@ -42,18 +43,17 @@ g++ main.cpp -o dort-temel-islem
 ## 🖥️ Example Console Flow
 
 ```text
-Birinci sayiyi giriniz: 25
-Islemi secin (+, -, *, /): k
-Hatali islem! Lutfen +, -, *, / secin: /
-Ikinci sayiyi giriniz: 0
-Hata: Bir sayi 0'a bolunemez!
+Birinci sayiyi giriniz: 25.5
+Islemi secin (+, -, *, /, %): %
+Ikinci sayiyi giriniz: 4
+Sonuc: 1.5
 
 Baska bir islem yapmak istiyor musunuz? (E/H): E
 ------------------------------------
-Birinci sayiyi giriniz: 12
-Islemi secin (+, -, *, /): *
-Ikinci sayiyi giriniz: 4
-Sonuc: 48
+Birinci sayiyi giriniz: 10
+Islemi secin (+, -, *, /, %): /
+Ikinci sayiyi giriniz: 0
+Hata: Bir sayi 0'a bolunemez!
 
 Baska bir islem yapmak istiyor musunuz? (E/H): H
 ------------------------------------
