@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -11,11 +12,11 @@ int main() {
 	cout << "Birinci sayiyi giriniz: ";
 	cin >> sayi1;
 
-	cout << " Islemi secin (+, -, *, /): ";
+	cout << " Islemi secin (+, -, *, /, %): ";
 	cin >> islem;
 
-	while (islem != '+' && islem != '-' && islem != '*' && islem != '/') {
-		cout << "Hatali islem girdiniz! Lutfen sadece +, -, *, / secin: ";
+	while (islem != '+' && islem != '-' && islem != '*' && islem != '/' && islem != '%') {
+		cout << "Hatali islem! Lutfen +, -, *, /, % secin: ";
 		cin >> islem;
 	}
 
@@ -37,6 +38,14 @@ int main() {
 		}
 		else {
 			cout << "Sonuc: " << sayi1 / sayi2 << endl;
+		}
+	}
+	else if (islem == '%') {
+		if (sayi2 == 0) {
+			cout << "Hata: Bir sayi 0'a bolunemez!" << endl;
+		}
+		else {
+			cout << "Sonuc: " << fmod(sayi1, sayi2) << endl;
 		}
 	}
 	cout << "\nBaska bir islem yapmak istiyor musunuz? (E/H): ";
