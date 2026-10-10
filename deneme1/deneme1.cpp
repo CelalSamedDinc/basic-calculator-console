@@ -34,11 +34,11 @@ int main() {
             cin >> sayi1;
         }
 
-        cout << "Islemi secin (+, -, *, /, %, mod, !): ";
+        cout << "Islemi secin (+, -, *, /, %, mod, !, ^): ";
         cin >> islem;
 
-        while (islem != "+" && islem != "-" && islem != "*" && islem != "/" && islem != "%" && islem != "mod" && islem != "!") {
-            cout << "Gecersiz islem! Lutfen +, -, *, /, %, mod veya ! secin: ";
+        while (islem != "+" && islem != "-" && islem != "*" && islem != "/" && islem != "%" && islem != "mod" && islem != "!" && islem != "^") {
+            cout << "Gecersiz islem! Lutfen +, -, *, /, %, mod, ! veya ^ secin: ";
             cin >> islem;
         }
 
@@ -95,6 +95,16 @@ int main() {
             else {
                 int n = static_cast<int>(sayi1);
                 sonSonuc = static_cast<double>(faktoriyelHesapla(n));
+                cout << "Sonuc: " << sonSonuc << endl;
+            }
+                    }
+        else if (islem == "^") {
+            if (sayi1 == 0 && sayi2 < 0) {
+                cout << "Hata: Taban 0 iken us negatif olamaz!" << endl;
+                sonuclaDevam = false;
+            }
+            else {
+                sonSonuc = pow(sayi1, sayi2);
                 cout << "Sonuc: " << sonSonuc << endl;
             }
         }
