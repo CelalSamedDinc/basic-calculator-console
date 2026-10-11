@@ -1,30 +1,32 @@
 ﻿#include <iostream>
 #include <cmath>
 #include <string>
+#include <vector>
+#include <sstream>
 
 using namespace std;
 
-double modHesapla(double bolunen, double bolen) {
-    return fmod(bolunen, bolen);
-}
-
-long long faktoriyelHesapla(int n) {
-    long long sonuc = 1;
-    for (int i = 1; i <= n; ++i) {
-        sonuc *= i;
+long long faktoriyelHesapla(long long n) {
+    long long carpim = 1;
+    for (long long i = 1; i <= n; ++i) {
+        carpim *= i;
     }
-    return sonuc;
+    return carpim;
 }
 
 int main() {
-    double sayi1, sayi2 = 0;
-    string islem;
-    char devamMi;
-
+    double sayi1 = 0;
+    double sayi2 = 0;
     double sonSonuc = 0;
+    string islem = "";
+    char devam = 'H';
     bool sonuclaDevam = false;
 
+    vector<string> gecmis;
+
     do {
+        bool hata = false;
+
         if (sonuclaDevam) {
             sayi1 = sonSonuc;
             cout << "Birinci sayi (onceki sonuc): " << sayi1 << endl;
@@ -34,15 +36,17 @@ int main() {
             cin >> sayi1;
         }
 
-        cout << "Islemi secin (+, -, *, /, %, mod, !, ^): ";
+        cout << "Islemi secin (+, -, *, /, %, mod, !, ^, sqrt, log): ";
         cin >> islem;
 
-        while (islem != "+" && islem != "-" && islem != "*" && islem != "/" && islem != "%" && islem != "mod" && islem != "!" && islem != "^") {
-            cout << "Gecersiz islem! Lutfen +, -, *, /, %, mod, ! veya ^ secin: ";
+        while (islem != "+" && islem != "-" && islem != "*" && islem != "/" &&
+            islem != "%" && islem != "mod" && islem != "!" && islem != "^" &&
+            islem != "sqrt" && islem != "log") {
+            cout << "Gecersiz islem! Tekrar giriniz (+, -, *, /, %, mod, !, ^, sqrt, log): ";
             cin >> islem;
         }
 
-        if (islem != "!") {
+        if (islem != "!" && islem != "sqrt") {
             cout << "Ikinci sayiyi giriniz: ";
             cin >> sayi2;
         }
@@ -62,7 +66,8 @@ int main() {
         else if (islem == "/") {
             if (sayi2 == 0) {
                 cout << "Hata: Bir sayi 0'a bolunemez!" << endl;
-                sonuclaDevam = false; 
+                hata = true;
+                sonuclaDevam = false;
             }
             else {
                 sonSonuc = sayi1 / sayi2;
@@ -76,31 +81,35 @@ int main() {
         else if (islem == "mod") {
             if (sayi2 == 0) {
                 cout << "Hata: 0'a gore mod alinamaz!" << endl;
+                hata = true;
                 sonuclaDevam = false;
             }
             else {
-                sonSonuc = modHesapla(sayi1, sayi2);
+                sonSonuc = fmod(sayi1, sayi2);
                 cout << "Sonuc: " << sonSonuc << endl;
             }
         }
         else if (islem == "!") {
             if (sayi1 < 0) {
                 cout << "Hata: Negatif sayilarin faktoriyeli tanimsizdir!" << endl;
+                hata = true;
                 sonuclaDevam = false;
             }
             else if (sayi1 > 20) {
-                cout << "Hata: Sonuc cok buyuk oldugu icin 20'den buyuk sayilar hesaplanamaz!" << endl;
+                cout << "Hata: 20'den buyuk sayilar icin faktoriyel hesaplanamaz (bellek tasmasi)!" << endl;
+                hata = true;
                 sonuclaDevam = false;
             }
             else {
-                int n = static_cast<int>(sayi1);
+                long long n = static_cast<long long>(sayi1);
                 sonSonuc = static_cast<double>(faktoriyelHesapla(n));
                 cout << "Sonuc: " << sonSonuc << endl;
             }
-                    }
+        }
         else if (islem == "^") {
             if (sayi1 == 0 && sayi2 < 0) {
                 cout << "Hata: Taban 0 iken us negatif olamaz!" << endl;
+                hata = true;
                 sonuclaDevam = false;
             }
             else {
@@ -108,22 +117,82 @@ int main() {
                 cout << "Sonuc: " << sonSonuc << endl;
             }
         }
+        else if (islem == "sqrt") {
+            if (sayi1 < 0) {
+                cout << "Hata: Negatif sayilarin karekokleri tanimsizdir!" << endl;
+                hata = true;
+                sonuclaDevam = false;
+            }
+            else {
+                sonSonuc = sqrt(sayi1);
+                cout << "Sonuc: " << sonSonuc << endl;
+            }
+        }
+        else if (islem == "log") {
+            if (sayi1 <= 0 || sayi1 == 1 || sayi2 <= 0) {
+                cout << "Hata: Taban pozitif ve 1'den farkli, ic kisim ise pozitif olmalidir!" << endl;
+                hata = true;
+                sonuclaDevam = false;
+            }
+            else {
+                sonSonuc = log(sayi2) / log(sayi1);
+                cout << "Sonuc: " << sonSonuc << endl;
+            }
+        }
+        if (!hata) {
+            stringstream ss;
 
-        cout << "\nBaska bir islem yapmak istiyor musunuz? (E/H): ";
-        cin >> devamMi;
+            if (islem == "!") {
+                ss << sayi1 << "! = " << sonSonuc;
+            }
+            else if (islem == "sqrt") {
+                ss << "sqrt(" << sayi1 << ") = " << sonSonuc;
+            }
+            else if (islem == "log") {
+                ss << "log_" << sayi1 << "(" << sayi2 << ") = " << sonSonuc;
+            }
+            else {
+                ss << sayi1 << " " << islem << " " << sayi2 << " = " << sonSonuc;
+            }
 
-        if (devamMi == 'E' || devamMi == 'e') {
-            char secim;
-            cout << "Bulunan sonuc (" << sonSonuc << ") ile devam etmek istiyor musunuz? (E/H): ";
-            cin >> secim;
+            gecmis.push_back(ss.str()); 
+        }
+        char gecmisSecim;
+        cout << "\nIslem gecmisini goruntulemek istiyor musunuz? (E/H): ";
+        cin >> gecmisSecim;
 
-            sonuclaDevam = (secim == 'E' || secim == 'e');
+        if (gecmisSecim == 'E' || gecmisSecim == 'e') {
+            cout << "\n--- ISLEM GECMISI ---" << endl;
+            if (gecmis.empty()) {
+                cout << "Henuz kayitli islem bulunmuyor." << endl;
+            }
+            else {
+                for (size_t i = 0; i < gecmis.size(); ++i) {
+                    cout << (i + 1) << ". " << gecmis[i] << endl;
+                }
+            }
+            cout << "---------------------\n" << endl;
         }
 
-        cout << "------------------------------------" << endl;
+        cout << "\nBaska bir islem yapmak istiyor musunuz? (E/H): ";
+        cin >> devam;
 
-    } while (devamMi == 'E' || devamMi == 'e');
+        if (devam == 'E' || devam == 'e') {
+            if (!hata) {
+                char ansSecim;
+                cout << "Bulunan sonuc (" << sonSonuc << ") ile devam etmek istiyor musunuz? (E/H): ";
+                cin >> ansSecim;
+                sonuclaDevam = (ansSecim == 'E' || ansSecim == 'e');
+            }
+            else {
+                sonuclaDevam = false;
+            }
+            cout << "------------------------------------" << endl;
+        }
 
+    } while (devam == 'E' || devam == 'e');
+
+    cout << "------------------------------------" << endl;
     cout << "Program sonlandirildi. Iyi gunler!" << endl;
 
     return 0;
